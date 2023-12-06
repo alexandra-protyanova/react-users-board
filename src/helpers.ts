@@ -1,8 +1,8 @@
-import { Color, User } from './types';
+import { Color, User, UserWithColor } from './types';
 
-export const prepareUsers = (users: User[], colors: Color[]) => {
-  return users.map(user => ({
+export const prepareUsers = (users: User[], colors: Color[]): UserWithColor[] => (
+  users.map(user => ({
     ...user,
     carColor: colors.find(color => color.id === user.carColorId),
-  }));
-};
+  }))
+);

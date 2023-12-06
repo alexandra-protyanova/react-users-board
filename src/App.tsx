@@ -3,9 +3,9 @@ import './App.scss';
 import { UserList } from './components/UserList';
 import { AddUserForm } from './components/AddUserForm';
 import { AppContainer } from './components/AppContainer';
-import { Color, User, UserWithColor } from './types';
+import { Color, User } from './types';
 import { prepareUsers } from './helpers';
-import { getUsers } from './services/user.service';
+import { getUsers, createUser } from './services/user.service';
 import { getColors } from './services/color.service';
 
 export const App: React.FC = () => {
@@ -22,16 +22,10 @@ export const App: React.FC = () => {
       .then(setColors);
   }, []);
 
-  const addUser = useCallback((name: string, carColorId: number) => {
-    const color = colors.find(c => c.id === carColorId);
-    const newUser: UserWithColor = {
-      id: Math.random(),
-      carColorId,
-      name,
-      carColor: color,
-    };
+  const addUser = useCallback(async (name: string, carColorId: number) => {
+    const createdUser = await createUser(name, carColorId);
 
-    setUsers((prev) => [...prev, newUser]);
+    setUsers((prev) => [...prev, createdUser]);
   }, []);
 
   return (
